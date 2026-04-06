@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config';
 
-const API = 'http://localhost:5000/api';
+const API = API_URL;
 
 const emptyForm = { matiere: '', note: '', commentaire: '', enseignant: '' };
 

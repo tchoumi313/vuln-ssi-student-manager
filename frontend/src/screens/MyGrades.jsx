@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config';
 
-const API = 'http://localhost:5000/api';
+const API = API_URL;
 
 export default function MyGrades() {
   const { token, user } = useAuth();
