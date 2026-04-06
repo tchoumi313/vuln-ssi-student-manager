@@ -28,11 +28,11 @@ services:
     restart: unless-stopped
     env_file: ./backend/.env
     environment:
-      PORT: 5000
+      PORT: 5001
       MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/ssi-student-manager}
       FRONTEND_URL: ${FRONTEND_URL:-https://ssi.buildupdev.com}
     expose:
-      - "5000"
+      - "5001"
     depends_on:
       mongo:
         condition: service_healthy
@@ -45,7 +45,7 @@ services:
       - "traefik.http.routers.ssibackend.rule=(Host(`ssiapi.buildupdev.com`) || Host(`ssi.buildupdev.com`)) && PathPrefix(`/api`)"
       - "traefik.http.routers.ssibackend.entrypoints=websecure"
       - "traefik.http.routers.ssibackend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.ssibackend.loadbalancer.server.port=5000"
+      - "traefik.http.services.ssibackend.loadbalancer.server.port=5001"
       - "traefik.docker.network=traefik-net"
 
   ssifrontend:
@@ -57,7 +57,7 @@ services:
     container_name: buildupdev-ssifrontend
     restart: unless-stopped
     expose:
-      - "80"
+      - "8001"
     networks:
       - traefik-net
     depends_on:
@@ -69,7 +69,7 @@ services:
       - "traefik.http.routers.ssifrontend.entrypoints=websecure"
       - "traefik.http.routers.ssifrontend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.ssifrontend.priority=1"
-      - "traefik.http.services.ssifrontend.loadbalancer.server.port=80"
+      - "traefik.http.services.ssifrontend.loadbalancer.server.port=8001"
       - "traefik.docker.network=traefik-net"
 
 volumes:
