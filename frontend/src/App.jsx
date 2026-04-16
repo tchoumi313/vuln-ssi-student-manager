@@ -30,7 +30,6 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
 
-          {/* Staff routes */}
           <Route path="/" element={
             <ProtectedRoute allowRoles={['admin', 'enseignant']}>
               <Layout><Dashboard /></Layout>
@@ -42,24 +41,14 @@ export default function App() {
             </ProtectedRoute>
           } />
 
-          {/*
-            VULNERABILITY 4: IDOR — hidden page accessible by direct URL
-            The /students/:id route is meant for teachers only.
-            Student role users have NO nav link or button pointing here.
-            But there is ZERO backend ownership check:
-              GET /api/grades/student/:studentId returns data for ANY id.
-            A logged-in student who finds another student's _id (trivial via
-            GET /api/students which needs no auth) can navigate directly to:
-              http://localhost:5173/students/<victim_id>
-            and see their full grade sheet.
-          */}
+          {/* FIX 8: /students/:id restricted to staff — etudiant role is blocked here too.
+              The backend IDOR fix is the real guard; this closes the frontend door as well. */}
           <Route path="/students/:id" element={
-            <ProtectedRoute>
+            <ProtectedRoute allowRoles={['admin', 'enseignant']}>
               <Layout><StudentDetail /></Layout>
             </ProtectedRoute>
           } />
 
-          {/* Student-only route */}
           <Route path="/my-grades" element={
             <ProtectedRoute allowRoles={['etudiant']}>
               <Layout><MyGrades /></Layout>
