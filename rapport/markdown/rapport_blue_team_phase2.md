@@ -95,7 +95,8 @@ app.use(helmet({
 | `Strict-Transport-Security` | `max-age=15552000` | Force HTTPS |
 | `X-DNS-Prefetch-Control` | `off` | Limite la fuite d'informations DNS |
 
-> 📸 **Capture à joindre :** DevTools → Network → réponse de `/api` → onglet Headers, montrant les nouveaux headers de sécurité
+![alt text](image-6.png)
+> DevTools → Network → réponse de `/api` → onglet Headers, montrant les nouveaux headers de sécurité
 
 ---
 
@@ -148,7 +149,8 @@ curl https://ssiapi.buildupdev.com/api/students \
 # → [...liste des étudiants...]
 ```
 
-> 📸 **Capture à joindre :** Réponse 401 de Postman sur `GET /api/students` sans token
+![alt text](image-5.png)
+> Réponse 401 sur `GET /api/students` sans token
 
 ---
 
@@ -193,8 +195,8 @@ curl https://ssiapi.buildupdev.com/api/grades/student/$ID_LUCAS \
   -H "Authorization: Bearer $TOKEN_ULRICH"
 # → {"message":"Accès refusé : vous ne pouvez consulter que vos propres notes."}
 ```
-
-> 📸 **Capture à joindre :** Réponse 403 sur l'accès aux notes de Lucas avec le token d'Ulrich
+![alt text](image-7.png)
+> Réponse 403 sur l'accès aux notes de Lucas avec le token d'Ulrich
 
 ---
 

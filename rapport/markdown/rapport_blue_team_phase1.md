@@ -169,17 +169,8 @@ L'application tourne sur un **VPS** (`/opt/ges/app/`) avec une stack Docker orch
 
 **Isolation réseau :** MongoDB est accessible uniquement via le réseau Docker interne `internal` — il n'est jamais exposé à Traefik ni à l'extérieur.
 
-```
-Internet (HTTPS 443)
-      │
-   Traefik  ←──── Let's Encrypt (TLS)
-      │
-      ├─── /api  ──────► ssibackend :5001
-      │                        │
-      │                  (réseau internal)
-      │                        │
-      └─── /*   ──────► ssifrontend :8001   buildupdev-ssi-mongo :27017
-```
+
+> ![alt text](image-8.png)
 
 ### 4.3 Lancement en local
 
