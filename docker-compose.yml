@@ -1,7 +1,7 @@
-# LevelUp.dev — Production docker-compose
-# Location on VPS: /opt/buildupdev/app/docker-compose.yml
+# GES — Production docker-compose
+# Location on VPS: /opt/ges/app/docker-compose.yml
 # Database: MongoDB — running as container in this file
-# Proxy: Traefik (separate stack in /opt/buildupdev/traefik/)
+# Proxy: Traefik (separate stack in /opt/ges/traefik/)
 
 services:
   mongo:
