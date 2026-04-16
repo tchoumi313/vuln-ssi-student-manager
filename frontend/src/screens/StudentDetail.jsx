@@ -139,14 +139,7 @@ export default function StudentDetail() {
                   <td>{g.matiere}</td>
                   <td className={g.note >= 10 ? 'note-pass' : 'note-fail'}>{g.note}</td>
                   <td>{g.enseignant || '—'}</td>
-                  {/*
-                    VULNERABILITY 2: Stored XSS
-                    commentaire is rendered as raw HTML — no sanitization anywhere.
-                    Red team exploit:
-                      POST /api/grades  { commentaire: "<img src=x onerror=alert(document.cookie)>" }
-                    Every user who views this student's grades will execute the payload.
-                  */}
-                  <td dangerouslySetInnerHTML={{ __html: g.commentaire }} />
+                  <td>{g.commentaire}</td>
                   <td>{new Date(g.createdAt).toLocaleDateString('fr-FR')}</td>
                   <td>
                     <button className="btn-danger" onClick={() => handleDelete(g._id)}>Supprimer</button>

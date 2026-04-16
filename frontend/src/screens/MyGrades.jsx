@@ -13,16 +13,6 @@ export default function MyGrades() {
     if (!user?.studentId) return;
     const headers = { Authorization: `Bearer ${token}` };
 
-    // VULNERABILITY 4: IDOR — Insecure Direct Object Reference
-    // The backend route GET /api/grades/student/:studentId does NOT verify
-    // that the authenticated user owns that studentId.
-    // This page calls it with user.studentId from the JWT — looks legitimate.
-    // But a student can open DevTools, grab another student's _id from
-    // GET /api/students (open route, no auth needed), then navigate directly to:
-    //   http://localhost:5173/students/<other_student_id>
-    // The StudentDetail page will load and show the victim's full grade sheet.
-    // No button or link points to that page in the student's UI — it's "hidden" —
-    // but direct URL access bypasses the frontend navigation entirely.
     Promise.all([
       fetch(`${API}/students/${user.studentId}`, { headers }).then(r => r.json()),
       fetch(`${API}/grades/student/${user.studentId}`, { headers }).then(r => r.json())
@@ -65,12 +55,6 @@ export default function MyGrades() {
                 <th>Matière</th>
                 <th>Note /20</th>
                 <th>Enseignant</th>
-                {/*
-                  VULNERABILITY 2 (visible here too):
-                  commentaire is rendered with dangerouslySetInnerHTML.
-                  A malicious teacher (or anyone with API access) can inject
-                  a stored XSS payload that fires when the student views their notes.
-                */}
                 <th>Commentaire</th>
                 <th>Date</th>
               </tr>
@@ -81,7 +65,7 @@ export default function MyGrades() {
                   <td>{g.matiere}</td>
                   <td className={g.note >= 10 ? 'note-pass' : 'note-fail'}>{g.note}</td>
                   <td>{g.enseignant || '—'}</td>
-                  <td dangerouslySetInnerHTML={{ __html: g.commentaire }} />
+                  <td>{g.commentaire}</td>
                   <td>{new Date(g.createdAt).toLocaleDateString('fr-FR')}</td>
                 </tr>
               ))}
